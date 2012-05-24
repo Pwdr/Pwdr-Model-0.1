@@ -44,7 +44,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM*/
 #include <avr/pgmspace.h>
 
 // How many times a single spot is printed
-const int saturation = 2;
+const int saturation = 15;
 
 // Bytes for the nozzle control
 byte lower = B00000000;
@@ -72,9 +72,9 @@ float stepper_R_MaxSpeed = 10000.0;
 float stepperMaxAccelaration = 100000.0;
 
 // Size of steps for stepper motors
-const int stepX = 23;    // 0.09433962264 mm  per step (5*9.6mm*PI/1600)
-const int stepY = 550;      // 0.09433962264 mm  per step (5*9.6mm*PI/1600)
-const int stepZ = 80;      // 0.1mm per stap (10*0.01)
+const int stepX = 21;    // 0.09433962264 mm  per step (5*9.6mm*PI/1600)
+const int stepY = 500;      // 0.09433962264 mm  per step (5*9.6mm*PI/1600)
+const int stepZ = 120;      // 0.1mm per full stap (10*0.01)
 
 // Size of steps when jogging
 const int jogStepY = 1000;
@@ -82,11 +82,10 @@ const int jogStepX = 500;
 const int jogStepZ = 250;
 
 // Size of machine in steps. Type long because number of steps > int (2^15)
-const long build_piston_width = 11000/stepX;  //2000/stepX;         // total width: 14800
-const long build_piston_length = 28000/stepY;       // total length 76000
-const long distance_roller_nozzle = 20000;
-const long piston_depth = 2;
-
+const long build_piston_width = 11000/stepX;    //2000/stepX;         // total width: 14800
+const long build_piston_length = 28000/stepY;   // total length 76000
+const long distance_roller_nozzle = 20000;      
+const long piston_depth = printfilesize[3];     // The depth of the part is defined by the preprocessor
 const long build_piston_end_stop = 76000;          // Absolute end of the machine
 
 // Variable for positioning
@@ -149,7 +148,7 @@ void loop(){
 
       Serial.println("Print started"); 
 
-      for (long z=1;z<piston_depth;z++){
+      for (long z=1;z<2*piston_depth;z++){
 
         for (long y=1; y<=printfilesize[1]; y++){    //build_piston_length; y++){
 
@@ -198,11 +197,15 @@ void loop(){
           
         }
         
-        // Message to serial to indicate layer is done and the show overall progress
-        Serial.print("Layer "); Serial.print(z); Serial.print(" of "); Serial.print(piston_depth)-1; Serial.println(" printed");
-        
-        // When the complete layer is printed, a new layer of powder is deposited
-        make_new_powder_layer();
+        if(z % 2){
+          homeXY();
+        } else { 
+          // Message to serial to indicate layer is done and the show overall progress
+          Serial.print("Layer "); Serial.print(z); Serial.print(" of "); Serial.print(piston_depth)-1; Serial.println(" printed");
+          
+          // When the complete layer is printed, a new layer of powder is deposited
+          make_new_powder_layer();
+        }
       }   
 
     // Handle all other incoming communication
@@ -274,6 +277,7 @@ void loop(){
     } 
     else if(serialbutton == 's'){
       jogY(-distance_roller_nozzle);
+      jogX(-6000);
       resetStepperPositions();
       Serial.println("Nozzle at start position");
     } 
@@ -401,10 +405,10 @@ void jogZ2(long jogDirStep){
 // Combined jog in Z direction for both pistons
 void jogZ(long jogDirStep){
   if(jogDirStep>0){
-    jogvar = stepperZ1.currentPosition()-abs(1.3*jogDirStep);
+    jogvar = stepperZ1.currentPosition()-abs(1.5*jogDirStep);
     jogvar2 = stepperZ2.currentPosition()+abs(jogDirStep);
   } else {
-    jogvar = stepperZ1.currentPosition()+abs(1.3*jogDirStep);
+    jogvar = stepperZ1.currentPosition()+abs(1.5*jogDirStep);
     jogvar2 = stepperZ2.currentPosition()-abs(jogDirStep);
   }
   if ((jogvar >= 0) || (jogvar <= piston_depth)){
@@ -435,7 +439,7 @@ void homeXY(){
   stepperX.moveTo(0); 
   stepperY.moveTo(-distance_roller_nozzle); 
 
-  while (stepperX.currentPosition() != 0 || stepperX.currentPosition() != 0) {
+  while (stepperY.currentPosition() != -distance_roller_nozzle || stepperX.currentPosition() != 0) {
     stepperX.run();
     stepperY.run();
   }
