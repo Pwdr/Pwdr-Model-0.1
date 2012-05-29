@@ -107,6 +107,15 @@ void draw() {
      if(preview == true){
        image(destination, 220, 91);
      }
+     
+    // Print the serial messages in the GUI
+    textAlign(CENTER);
+    fill(#E5E5E5);
+    text(inString, tlM+1, ttM+100); 
+    text(inString, tlM-1, ttM+100); 
+    fill(#333333);
+    text(inString, tlM, ttM+100); 
+    
    }
 }
 
@@ -222,6 +231,7 @@ void mouseClicked(){
      // Switch to printing interface
      } else if(mouseX >= mL+3*b2W+3*b2M  && mouseX <= mL+4*b2W+3*b2M && mouseY>= m2T && mouseY<= m2T+bH){
         guiState = "printing";
+        inString = "";
         stroke(196,200,211); 
         fill(196,200,211); 
         rect(mL+3*b2W+3*b2M,m2T,b2W,bH);
@@ -285,8 +295,10 @@ void loadModel(){
 void convertModel(){
   // There is a check whether the file is a multiple of 12 high, but not a fix when this isn't the case.
  if (source.height%12 != 0){
-    println("Height of the image isn't a multiple of 12, please adjust size");
+    inString = "Height of the image isn't a multiple of 12, please adjust size";
   } else {
+    
+    inString = "";
     
     output.print("int printfilesize[] = {"+source.width+","+source.height/nozzles+","+source.height/nozzles*source.width+"1};\r\nPROGMEM prog_uchar printFileLower[][2000] ={{");
     // used to include "+source.width*+", but 2000 is the max size approximately the max size of the array on the Arduino. Hence the array must be declared in the Main source too,
@@ -353,6 +365,8 @@ void convertModel(){
   output.print("}};");
   outputUpper.print("}};");
     }
+    
+    inString = "Model converted";
 }
 
 void sendPrintFile(){
@@ -361,6 +375,8 @@ void sendPrintFile(){
   
   output.flush(); 
   output.close(); 
+  
+  inString = "Arduino app opened, please upload firmware...";
   
   open("/Applications/Arduino.app");
 
