@@ -283,6 +283,7 @@ void loadModel(){
 }
 
 void convertModel(){
+  // There is a check whether the file is a multiple of 12 high, but not a fix when this isn't the case.
  if (source.height%12 != 0){
     println("Height of the image isn't a multiple of 12, please adjust size");
   } else {
