@@ -41,7 +41,7 @@ PrintWriter outputUpper; // Output upper nozzles
 String tempSerial;
 String inString = "";
 
-int ttM = 432;      // text top margin
+int ttM = 412;      // text top margin
 int tlM = 437;      // text left margin
 int bW = 54;        // button width
 int bH = 34;        // buton height
@@ -93,6 +93,7 @@ void draw() {
   if(guiState == "printing"){
     // Set the background image
     background(backgroundPrinting);
+    int ttM = 412;      // text top margin
     
     // Print the serial messages in the GUI
     textAlign(CENTER);
@@ -104,6 +105,7 @@ void draw() {
 
   } else if(guiState == "converting"){
      background(backgroundConverting);
+     int ttM = 432;      // text top margin
 
      if(preview == true){
        image(destination, 220, 91);
