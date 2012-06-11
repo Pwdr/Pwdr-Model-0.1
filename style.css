@@ -1,0 +1,87 @@
+html {
+	background: url("Pwdr-background.png") repeat-y  top;
+}
+
+
+@font-face {
+    font-family: 'ITCOfficinaSerifStdBookRg';
+    src: url('officinaserifstd-book-webfont.eot');
+    src: url('officinaserifstd-book-webfont.eot?#iefix') format('embedded-opentype'),
+         url('officinaserifstd-book-webfont.woff') format('woff'),
+         url('officinaserifstd-book-webfont.ttf') format('truetype'),
+         url('officinaserifstd-book-webfont.svg#ITCOfficinaSerifStdBookRg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+h1,h2,h3,h4,h5,h6,pre,body,p,div,a{
+	font-family: "ITCOfficinaSerifStdBookRg";
+	text-decoration: none;
+	color: #333333;
+}
+
+h1, h2{
+	margin-top: 35px;
+}
+
+p {
+	font-size: 17px;
+}
+
+#main {
+	width: 900px;
+	margin: 0 auto;
+}
+
+header{
+	float: left;
+	width: 300px
+	height: 1080px;
+}
+
+header img{
+	padding: 30px 30px 40px 70px;
+}
+
+header ul{
+	list-style: none;
+}
+
+header li{
+	height: 26px;
+	padding: 10px 0 4px 0;
+	background: url("Pwdr-dots.png") no-repeat  bottom;
+	text-align: center;
+}
+
+header li a{
+	text-transform:uppercase;
+	font-weight: 600;
+	color: #666666;
+}
+
+header li a:hover{
+	color: grey;
+}
+
+hgroup{
+	width: 580px;
+	float: right;
+}
+
+hgroup img{
+	margin: 20px 0 25px 0;
+}
+
+hgroup li{
+	list-style-type:square;
+	margin-left: -20px;
+}
+
+footer{
+	font-size: 13px;
+	text-align: center;
+	font-style: italic;
+	margin-top: 100px;
+}
