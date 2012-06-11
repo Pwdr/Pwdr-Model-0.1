@@ -1,7 +1,7 @@
 html {
 	background: url("Pwdr-background.png") repeat-y  top;
+	min-width: 900px;
 }
-
 
 @font-face {
     font-family: 'ITCOfficinaSerifStdBookRg';
