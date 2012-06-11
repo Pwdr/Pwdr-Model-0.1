@@ -17,7 +17,6 @@ html {
 
 h1,h2,h3,h4,h5,h6,pre,body,p,div,a{
 	font-family: "ITCOfficinaSerifStdBookRg";
-	text-decoration: none;
 	color: #333333;
 }
 
@@ -27,6 +26,15 @@ h1, h2{
 
 p {
 	font-size: 17px;
+}
+
+a{
+	color: black;
+	text-decoration: underline;
+}
+
+a:hover{
+	color: grey;
 }
 
 #main {
@@ -57,6 +65,7 @@ header li{
 
 header li a{
 	text-transform:uppercase;
+	text-decoration: none;
 	font-weight: 600;
 	color: #666666;
 }
