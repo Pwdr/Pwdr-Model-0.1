@@ -21,6 +21,7 @@ h1,h2,h3,h4,h5,h6,pre,body,p,div,a{
 
 h1, h2{
 	margin-top: 35px;
+	text-shadow: #fff 0px 1px 1px;
 }
 
 p {
@@ -54,6 +55,7 @@ header{
 	width: 300px
 	height: 1080px;
 	text-align: center;
+	text-shadow: #fff 0px 1px 1px;
 }
 
 header img{
