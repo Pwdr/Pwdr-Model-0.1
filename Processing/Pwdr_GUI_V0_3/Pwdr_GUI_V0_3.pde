@@ -58,7 +58,7 @@ void draw(){
   
   if(GUIstate == "connection"){
     // Store and count avalaible serial ports
-    comList = myPort.list();
+    comList = arduinoSerial.list();
     String comlist = join(comList, ",");
     String COMlist = comList[0];
     int size2 = COMlist.length();
