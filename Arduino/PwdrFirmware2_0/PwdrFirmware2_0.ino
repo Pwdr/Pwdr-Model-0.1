@@ -43,6 +43,8 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM*/
 #include <AccelStepper.h>
 #include <avr/pgmspace.h>
 
+#include <SD.h> 
+
 // How many times a single spot is printed
 const int saturation = 15;
 
@@ -54,6 +56,8 @@ byte upper = B0000;
 // stored as follows: 
 // width, height/#nozzles, number of elements per row (height/nozzles*width)
 // This information is stored in the seperate file called printdata.ino
+File dataFile;
+
 extern int printfilesize[];
 extern prog_uchar printFileLower[][2000];
 extern prog_uchar printFileUpper[][2000];
@@ -67,7 +71,7 @@ AccelStepper stepperZ1(1, 51, 50);
 AccelStepper stepperR(1, 44, 45);
 
 // Stepper speed and accelaration
-float stepperMaxSpeed = 22000.0;
+float stepperMaxSpeed = 20000.0;
 float stepper_R_MaxSpeed = 22000.0;
 float stepperMaxAccelaration = 1000000.0;
 
@@ -106,7 +110,13 @@ void setup(){
   // Reset the ports for the printer nozzles
   PORTA = B00000000;
   PORTC = B00000000;
- 
+  
+  if (!SD.begin(4)) {
+    Serial.println("initialization failed!");
+    return;
+  }
+  Serial.println("initialization done.");
+
   // Start serial communication, baud rate 9600
   Serial.begin(9600);
 
@@ -149,6 +159,23 @@ void loop(){
       Serial.println("Print started"); 
 
       for (long z=1;z<2*piston_depth;z++){
+
+String Temp = "printdata/PrintDataSlice"+z;
+Temp = Temp +".txt";
+char __Temp[sizeof(Temp)];
+Temp.toCharArray(__Temp, sizeof(__Temp));
+dataFile = SD.open(__Temp,FILE_WRITE);
+
+if (dataFile) {
+  while (dataFile.available()) {
+    Serial.write(dataFile.read());
+    
+    
+  }
+  dataFile.close();
+} else {
+  Serial.println("Error while opening file from SD card");
+}
 
         for (long y=1; y<=printfilesize[1]; y++){    //build_piston_length; y++){
 
