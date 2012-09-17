@@ -139,8 +139,7 @@ void setup(){
   homeXY();
 
   Serial.println("Printer ready");
-  Serial.println("-- SAFE TO CONNECT POWER --");
-     
+  Serial.println("-- SAFE TO CONNECT POWER --");     
 }
 
 void loop(){
@@ -168,9 +167,7 @@ dataFile = SD.open(__Temp,FILE_WRITE);
 
 if (dataFile) {
   while (dataFile.available()) {
-    Serial.write(dataFile.read());
-    
-    
+    printFileLower = dataFile.read()
   }
   dataFile.close();
 } else {
@@ -318,157 +315,11 @@ if (dataFile) {
     }  else {
       Serial.println("Unknown command"); 
     }
-  }
-  
+  }  
 
   // Blink the LED to show the Arduino is idle
   digitalWrite(13,HIGH);
   delay(18);
   digitalWrite(13,LOW);
   delay(18);
-}
-
-void spray_ink( byte lower_nozzles, byte upper_nozzles) {
-//lower_nozzles = 1-8  - PORTA
-  for(int i = 0; i <= 7; i++){
-    byte mask = 1<<i;
-    if(lower_nozzles & mask){
-      PORTA |= mask; delayMicroseconds(5);
-      PORTA &= ~mask; delayMicroseconds(1);
-    }
-  } 
-//upper_nozzles = 9-12 - PORTC using pins 4,5,6,7 so 4-7 not 0-3
-  for(int i = 4; i <= 7; i++){
-    byte mask = 1<<i;
-    if(upper_nozzles<<3 & mask){
-      PORTC |= mask; delayMicroseconds(5);
-      PORTC &= ~mask; delayMicroseconds(1);
-    }
-  }
-//wait to be sure we don't try to fire nozzles to fast and burn them out
-  delayMicroseconds(800); 
-}
-
-void make_new_powder_layer(){
-  // In case the X is not at zero
-  stepperX.runToNewPosition(0);
-  // Lower the powder bin to prevent powder from scooping
-  jogZ1(2*jogStepZ);
-  //Jog Y to the end of the powder bin
-  stepperY.runToNewPosition(-build_piston_end_stop);
-  // And move the powder bin back again
-  jogZ1(-2*jogStepZ);
-  // Move both pistons simultaniously
-  jogZ(stepZ);
-   // Spread the powder over the piston, roller rotate with constant spee   
-  stepperY.moveTo(0);
-  // Let the roller rotate untill 
-  while (stepperY.currentPosition() != 0){
-    stepperR.runSpeed();
-    stepperY.run();
-  }
-  // Return carriage to (0,-14000)
-  stepperY.runToNewPosition(-distance_roller_nozzle);
-}
-
-// Jog in X direction
-void jogX(long jogDirStep){
-  // Define direction, larger than 1 means clockwise
-  if(jogDirStep>0){
-    jogvar = stepperX.currentPosition()+abs(jogDirStep);
-  } else {
-    jogvar = stepperX.currentPosition()-abs(jogDirStep);
-  }
-  // Check wether it's allowed to take a step
-  if ((jogvar >= 0) || (jogvar <= build_piston_width)){
-    stepperX.runToNewPosition(jogvar); 
-  } else { 
-    Serial.println("jog X impossible");
-  }
-}
-
-// Jog in Y direction
-void jogY(long jogDirStep){
-  if(jogDirStep>0){
-    jogvar = stepperY.currentPosition()+abs(jogDirStep);
-  } else {
-    jogvar = stepperY.currentPosition()-abs(jogDirStep);
-  }
-  if ((jogvar >= 0) || (jogvar <= build_piston_length)){
-    stepperY.runToNewPosition(jogvar); 
-  } else { 
-    Serial.println("jog Y impossible");
-  }
-}
-
-// Jog of Z1 piston
-void jogZ1(long jogDirStep){
-  if(jogDirStep>0){
-    jogvar = stepperZ1.currentPosition()+abs(jogDirStep);
-  } else {
-    jogvar = stepperZ1.currentPosition()-abs(jogDirStep);
-  }
-  if ((jogvar >= 0) || (jogvar <= piston_depth)){
-    stepperZ1.runToNewPosition(jogvar); 
-  } else { 
-    Serial.println("jog Z1 impossible");
-  }
-}
-
-// Jog of Z2 piston
-void jogZ2(long jogDirStep){
-  if(jogDirStep>0){
-    jogvar = stepperZ2.currentPosition()+abs(jogDirStep);
-  } else {
-    jogvar = stepperZ2.currentPosition()-abs(jogDirStep);
-  }
-  if ((jogvar >= 0) || (jogvar <= piston_depth)){
-    stepperZ2.runToNewPosition(jogvar); 
-  } else { 
-    Serial.println("jog Z2 impossible");
-  }
-}
-
-// Combined jog in Z direction for both pistons
-void jogZ(long jogDirStep){
-  if(jogDirStep>0){
-    jogvar = stepperZ1.currentPosition()-abs(1.5*jogDirStep);
-    jogvar2 = stepperZ2.currentPosition()+abs(jogDirStep);
-  } else {
-    jogvar = stepperZ1.currentPosition()+abs(1.5*jogDirStep);
-    jogvar2 = stepperZ2.currentPosition()-abs(jogDirStep);
-  }
-  if ((jogvar >= 0) || (jogvar <= piston_depth)){
-    stepperZ1.moveTo(jogvar); 
-    stepperZ2.moveTo(jogvar2); 
-  } else { 
-    Serial.println("jog Z2 impossible");
-  }
-  while (stepperZ1.currentPosition() != jogvar || stepperZ2.currentPosition() != jogvar2){
-    stepperZ1.run();
-    stepperZ2.run(); 
-  }
-}
-
-// Reset the positions of the steppers. This acts as a margin
-// for the printer, making it possible to fill the pistons with
-// powder and stopping the 
-void resetStepperPositions(){
-  stepperX.setCurrentPosition(0);
-  stepperY.setCurrentPosition(-distance_roller_nozzle);
-  stepperZ1.setCurrentPosition(0);
-  stepperZ2.setCurrentPosition(0);
-  Serial.println("Stepper counters reset");  
-}
-
-void homeXY(){
-  // Return the XY-carriage to 0,0
-  stepperX.moveTo(0); 
-  stepperY.moveTo(-distance_roller_nozzle); 
-
-  while (stepperY.currentPosition() != -distance_roller_nozzle || stepperX.currentPosition() != 0) {
-    stepperX.run();
-    stepperY.run();
-  }
-  Serial.println("Carriage homing");
 }

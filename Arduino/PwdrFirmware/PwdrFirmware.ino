@@ -84,7 +84,7 @@ const int jogStepZ = 250;
 // Size of machine in steps. Type long because number of steps > int (2^15)
 const long build_piston_width = 11000/stepX;    //2000/stepX;         // total width: 14800
 const long build_piston_length = 28000/stepY;   // total length 76000
-const long distance_roller_nozzle = 20000;      
+const long distance_roller_nozzle = 34000;      
 const long piston_depth = printfilesize[3];     // The depth of the part is defined by the preprocessor
 const long build_piston_end_stop = 76000;          // Absolute end of the machine
 
@@ -188,7 +188,7 @@ void loop(){
                    lower  =  pgm_read_byte_near(&printFileLower[y-1][printfilesize[0]-(x-1)]);
                    upper =  pgm_read_byte_near(&printFileUpper[y-1][printfilesize[0]-(x-1)]); 
                   }               
-                   spray_ink(lower,upper);
+                    spray_ink(lower,upper);
                 }
               }
             }
@@ -319,7 +319,7 @@ void spray_ink( byte lower_nozzles, byte upper_nozzles) {
     }
   }
 //wait to be sure we don't try to fire nozzles to fast and burn them out
-  delayMicroseconds(800); 
+  delayMicroseconds(450); 
 }
 
 void make_new_powder_layer(){
