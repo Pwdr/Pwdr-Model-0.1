@@ -1,0 +1,13 @@
+const int BUFFER_SIZE = 256;
+char rxbuffer[BUFFER_SIZE];
+int rxbufferLength = 0;
+
+void loop() {
+	if (dataFile.available()) {
+		if (dataFile.readBytesUntil('\n', rxbuffer, BUFFER_SIZE)) {
+			dataFile.write(rxbuffer, rxbufferLength);
+		} else {
+			dataFile.write("timed out");
+		}
+	}
+}

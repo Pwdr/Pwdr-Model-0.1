@@ -74,7 +74,7 @@ float stepperMaxAccelaration = 1000000.0;
 // Size of steps for stepper motors
 const int stepX = 21;    // 0.09433962264 mm  per step (5*9.6mm*PI/1600)
 const int stepY = 500;      // 0.09433962264 mm  per step (5*9.6mm*PI/1600)
-const int stepZ = 120;      // 0.1mm per full stap (10*0.01)
+const int stepZ = 70;      // 0.1mm per full stap (10*0.01)
 
 // Size of steps when jogging
 const int jogStepY = 1000;
