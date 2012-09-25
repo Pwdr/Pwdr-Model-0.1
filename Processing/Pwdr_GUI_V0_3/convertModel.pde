@@ -91,7 +91,7 @@ void convertModel() {
 //  output.print("}};");
 //  outputUpper.print("}};");
 
-  saveBytes("PrintData/PwdrPrintDataUpper"+sliceNumber+".dat", print_data);
+  saveBytes("PrintData/PwdrPrintData"+sliceNumber+".dat", print_data);
  
   sliceNumber++;
   println(sliceNumber);

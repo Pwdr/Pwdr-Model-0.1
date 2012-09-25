@@ -1,5 +1,4 @@
-
-void make_new_powder_layer(){
+void newLayer(){
   // In case the X is not at zero
   stepperX.runToNewPosition(0);
   // Lower the powder bin to prevent powder from scooping
@@ -17,10 +16,9 @@ void make_new_powder_layer(){
     stepperR.runSpeed();
     stepperY.run();
   }
-  // Return carriage to (0,-14000)
-  stepperY.runToNewPosition(-distance_roller_nozzle);
+  // Return carriage to starting position
+  homeXY();
 }
-
 
 // Reset the positions of the steppers. This acts as a margin
 // for the printer, making it possible to fill the pistons with
@@ -43,4 +41,38 @@ void homeXY(){
     stepperY.run();
   }
   Serial.println("Carriage homing");
+}
+
+void spray_ink( byte lower_nozzles, byte upper_nozzles) {
+  //lower_nozzles = 1-8  - PORTA
+  for(int i = 0; i <= 7; i++){
+    byte mask = 1<<i;
+    if(lower_nozzles & mask){
+      PORTA |= mask; delayMicroseconds(5);
+      PORTA &= ~mask; delayMicroseconds(1);
+    }
+  } 
+  //upper_nozzles = 9-12 - PORTC using pins 4,5,6,7 so 4-7 not 0-3
+  for(int i = 4; i <= 7; i++){
+    byte mask = 1<<i;
+    if(upper_nozzles<<3 & mask){
+      PORTC |= mask; delayMicroseconds(5);
+      PORTC &= ~mask; delayMicroseconds(1);
+    }
+  }
+  //wait to be sure we don't try to fire nozzles to fast and burn them out
+  delayMicroseconds(500); 
+}
+
+void abortPrint() {
+  PORTA = B00000000;
+  PORTC = B00000000;      
+  Serial.println("Printing aborted");
+  delay(1000);
+  Serial.println("Please disconnect power and reset Arduino");
+  // Hence breaking all the loops would demand for a couple of extra statements, it's
+  // eassier and less resource demanding to put the Arduino controller in a infinite loop
+  while(1) { 
+  
+  } 
 }
