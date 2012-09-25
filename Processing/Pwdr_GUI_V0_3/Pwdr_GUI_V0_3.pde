@@ -29,7 +29,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM*/
 
 import processing.serial.*;
 
-PImage backgroundImage, backgroundImageMask;
+PImage backgroundImage, backgroundImageMask, sC;
 PFont myFont;
 
 // !Redundant!
@@ -51,6 +51,7 @@ void setup(){
   // Load font
   myFont = loadFont("OfficinaSerif.vlw");
   textFont(myFont, 19);
+  sC = loadImage("http://c.statcounter.com/8319824/0/d557b615/0/", "png");
 }
 
 void draw(){

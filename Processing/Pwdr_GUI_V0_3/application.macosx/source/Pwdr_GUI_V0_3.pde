@@ -116,6 +116,7 @@ void draw(){
         GUIstate = "converting";
         frameRate(10);
     }
+    
   } else if(GUIstate == "printing"){
     textAlign(CENTER);
     fill(#666666);

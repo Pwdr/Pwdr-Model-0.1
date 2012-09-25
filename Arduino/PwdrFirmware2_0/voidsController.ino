@@ -1,3 +1,4 @@
+// Deposit new powder layer
 void newLayer(){
   // In case the X is not at zero
   stepperX.runToNewPosition(0);
