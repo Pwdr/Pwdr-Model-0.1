@@ -73,6 +73,5 @@ void abortPrint() {
   // Hence breaking all the loops would demand for a couple of extra statements, it's
   // eassier and less resource demanding to put the Arduino controller in a infinite loop
   while(1) { 
-  
   } 
 }

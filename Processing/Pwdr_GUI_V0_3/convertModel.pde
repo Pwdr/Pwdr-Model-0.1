@@ -83,7 +83,7 @@ void convertModel() {
 
       UpperStr2 = join(UpperStr, "");
 //      outputUpper.print(unbinary(UpperStr2));
-      print_data[index] = byte(unbinary(LowerStr2));
+      print_data[index] = byte(unbinary(UpperStr2));
       index++;
       //      outputUpper.print(", ");
     }
