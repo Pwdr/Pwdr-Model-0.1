@@ -27,6 +27,7 @@ void mouseClicked() {
     case 4:
       GUIstate = "settings";
       backgroundImage = loadImage("Settings.png");
+      backgroundImageMask = loadImage("SettingsMask.png");
       break;
     // "Converting"
     case 5:
@@ -133,6 +134,30 @@ void mouseClicked() {
     case 41:
       // Abort printing
       serialSend("q");
+      break;
+    case 48:
+      // Decrease scale factor
+      if (PreScale > 0.1){
+        PreScale = PreScale - 0.1;  
+      }
+      println(PreScale);
+      break;
+    case 49:
+      // Increase scale factor
+      PreScale = PreScale + 0.1;
+      println(PreScale);
+      break;
+    case 50:
+      // Decrease number of slices
+      maxSlices = maxSlices - 100;
+      println(maxSlices);
+      break;
+    case 51:
+      // Increase number of slices
+      if (maxSlices > 100){
+        maxSlices = maxSlices + 100;
+      }
+      println(maxSlices);
       break;
   }
 }

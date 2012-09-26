@@ -119,9 +119,18 @@ void draw(){
     }
     
   } else if(GUIstate == "printing"){
+    
     textAlign(CENTER);
     fill(#666666);
     text(serialString, 450, 395);
     textAlign(LEFT);
+  } else if(GUIstate == "settings"){
+    
+    textAlign(CENTER);
+    fill(#666666);
+    text(PreScale, 375, 100);
+    text(maxSlices, 375, 150);
+    textAlign(LEFT);
   }
 }
+
