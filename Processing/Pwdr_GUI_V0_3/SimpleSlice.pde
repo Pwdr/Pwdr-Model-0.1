@@ -1,7 +1,7 @@
 //Measured in millimeters
 float LayerThickness = 0.4;
 float Sink = 2;
-int maxSlices = 500;
+int maxSlices = 20;
 
 //Dimensionless
 float PreScale = 1.4;

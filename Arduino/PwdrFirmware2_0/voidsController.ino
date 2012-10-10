@@ -1,6 +1,8 @@
 // Deposit new powder layer
 void newLayer(){
   // In case the X is not at zero
+  // Move bin up to top
+  jogZ2(-jogStepZ);
   stepperX.runToNewPosition(0);
   // Lower the powder bin to prevent powder from scooping
   jogZ1(2*jogStepZ);
@@ -19,6 +21,8 @@ void newLayer(){
   }
   // Return carriage to starting position
   homeXY();
+  // Move piston down to prevent scewing
+  jogZ2(jogStepZ);
 }
 
 // Reset the positions of the steppers. This acts as a margin

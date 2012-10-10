@@ -37,10 +37,10 @@
 #include <SD.h> 
 
 // How many times a single spot is printed
-const int saturation = 15;
+int saturation = 1;
 
 // Declare file length (rows), width and height
-int printfilesize[] = {40,650,500};
+int printfilesize[] = {480,40,40,15};
 
 // Bytes for the nozzle control
 byte lower = B00000000;
@@ -48,7 +48,7 @@ byte upper = B0000;
 
 // SD card information
 File dataFile;
-int chipSelect = 4;
+int chipSelect = 53;
 
 // Initilize stepper driver, 11 Direction and 12 Step
 AccelStepper stepperX(1, 53, 52);  
@@ -86,9 +86,10 @@ long jogvar2 = 0;
 
 void setup(){  
 
-  // Initialize Onboard LED and extra button
+  // Initialize Onboard LED and extra button and SD card
   pinMode(5, INPUT); 
   pinMode(13, OUTPUT);
+  pinMode(53, OUTPUT);
 
   // Initilize the ink pins (22 to 33) and stepper pins (44-53)
   for (int i=22; i<=53; i++) {

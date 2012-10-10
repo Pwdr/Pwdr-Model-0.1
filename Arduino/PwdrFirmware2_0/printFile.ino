@@ -4,22 +4,59 @@ void printFile(){
 
   // Safety measure, return carriage to 0,0 position
   homeXY();
-  Serial.println("Print started"); 
+  Serial.println("Print started");
+ 
+  // Read config file for print size
+  dataFile.close();    
+  dataFile = SD.open("PWDR/PWDRCONF.TXT");
+  
+  if (!dataFile) {
+    Serial.println("Error while opening printer config");
+  } else {
+    Serial.print("Reading file printer config");
+  }
+ 
+  int index = 0;
+  int index2 = 0;
+  char buffer[5];
+ 
+  while (dataFile.available()) {
+    int temp = dataFile.read();
+    // Convert the CSV file in individual int's
+    if (temp != ','){
+      buffer[index++] = temp;
+    } else {
+     printfilesize[index2] = atoi(buffer);
+     memset(buffer, 0, sizeof(buffer));
+     index = 0;
+     index2++;
+    }
+  }
+  
+  saturation = printfilesize[3];
 
-  for (long z=1;z<2*printfilesize[3];z++){
+  for (int z=1;z<2*printfilesize[2];z++){
 
-    // Use layer numer in file name
-     String Temp = "printdata/PwdrPrintData"+z;
-    Temp = Temp +".dat";
-    char __Temp[sizeof(Temp)];
-    Temp.toCharArray(__Temp, sizeof(__Temp));
+    // Use layer numer in file name   
+    char filename[] = "PWDR/PWDR0000.DAT";
+    // Add leading zeros
+    filename[12] += char(z%10);   
+    if (z >= 10){
+      filename[11] += char((z/10)%10);
+    } if (z >= 100){
+      filename[10] += char((z/100)%10);
+    } if (z >= 1000){
+      filename[9] += char((z/1000)%10);
+    }
     
     // Always start with closing a file, inside the Z-loop
-    dataFile.close();
-    dataFile = SD.open(__Temp);
+    dataFile.close();    
+    dataFile = SD.open(filename);
     
     if (!dataFile) {
-      Serial.print("Error while opening "); Serial.println(__Temp);
+      Serial.print("Error while opening "); Serial.println(filename);
+    } else {
+      Serial.print("Reading file  "); Serial.println(filename);
     }
 
     for (long y=1; y<=printfilesize[1]; y++){  
@@ -29,13 +66,13 @@ void printFile(){
         if (analogRead(54) == 0){
           abortPrint();
         } else {
-       
+
           // Move steps in X direction, reverse direction from left to right
           // when the Y position is even. Meanwhile, read the SD file for printdata
           if(y % 2 && x == printfilesize[0]){
             stepperX.runToNewPosition(stepperX.currentPosition()-stepX);
             // First step of right-left Y
-            dataFile.seek(dataFile.position()+2*printfilesize[2]-2);  
+            dataFile.seek(dataFile.position()+2*printfilesize[0]-2);  
             lower  =  dataFile.read();
             upper =  dataFile.read();
           } else if(y % 2 && dataFile.position()>0){
@@ -53,9 +90,10 @@ void printFile(){
           // Fire the nozzles, as many times as prescribed
           for (int i=0; i<saturation; i++){
             spray_ink(lower,upper);
+            Serial.println(x);
           }
         }
-      }
+      } 
       // When finished X, step in Y-direction
       stepperY.runToNewPosition(stepperY.currentPosition()-stepY);
     }

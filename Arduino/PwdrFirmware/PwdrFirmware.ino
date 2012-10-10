@@ -20,7 +20,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMM                                                          MMMMMMMMMMM
 MMMMMMMMMMM Firmware for Pwdr three-dimensional powder based printer MMMMMMMMMMM
 MMMMMMMMMMM Author: Alex Budding                                     MMMMMMMMMMM
-MMMMMMMMMMM E-mail: a.budding@gstudent.utwente.nl                    MMMMMMMMMMM
+MMMMMMMMMMM E-mail: pwdr@wetterhorn.nl                               MMMMMMMMMMM
 MMMMMMMMMMM This software has been released under the GPL License    MMMMMMMMMMM 
 MMMMMMMMMMM                                                          MMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
@@ -30,7 +30,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM*/
 //
 // Always manually add the 'PwdrPrintData.ino' file by Sketch >> Add File...
 // When the Arduino IDE asks to replace the file, cancel. Move the file to 
-// a different location and add again from this location. When the file is 
+// a different location and add again from this location. When the file is   
 // updated by the PwdrPrecosssor, it's now automatically updated.
 //
 /////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +44,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM*/
 #include <avr/pgmspace.h>
 
 // How many times a single spot is printed
-const int saturation = 15;
+const int saturation = 14;
 
 // Bytes for the nozzle control
 byte lower = B00000000;
@@ -74,7 +74,7 @@ float stepperMaxAccelaration = 1000000.0;
 // Size of steps for stepper motors
 const int stepX = 21;    // 0.09433962264 mm  per step (5*9.6mm*PI/1600)
 const int stepY = 500;      // 0.09433962264 mm  per step (5*9.6mm*PI/1600)
-const int stepZ = 70;      // 0.1mm per full stap (10*0.01)
+const int stepZ = 95;      // 0.1mm per full stap (10*0.01)
 
 // Size of steps when jogging
 const int jogStepY = 1000;
@@ -85,7 +85,7 @@ const int jogStepZ = 250;
 const long build_piston_width = 11000/stepX;    //2000/stepX;         // total width: 14800
 const long build_piston_length = 28000/stepY;   // total length 76000
 const long distance_roller_nozzle = 34000;      
-const long piston_depth = printfilesize[3];     // The depth of the part is defined by the preprocessor
+const long piston_depth = printfilesize[2];     // The depth of the part is defined by the preprocessor
 const long build_piston_end_stop = 76000;          // Absolute end of the machine
 
 // Variable for positioning
@@ -157,10 +157,10 @@ void loop(){
               // Move steps in X direction, reverse direction from left to right
               // when the Y position is even.
               if(y % 2){
-                stepperX.runToNewPosition(stepperX.currentPosition()-stepX);
+                stepperX.runToNewPosition(stepperX.currentPosition()-(stepX));//2));
               } 
               else {
-                stepperX.runToNewPosition(stepperX.currentPosition()+stepX);
+                stepperX.runToNewPosition(stepperX.currentPosition()+(stepX));//2));
              }
               
              // If the button on the protoshield is pushed, the printing process is aborted.
@@ -192,8 +192,12 @@ void loop(){
                 }
               }
             }
-            
-          stepperY.runToNewPosition(stepperY.currentPosition()-stepY);
+          
+          if (y % 2){
+            stepperY.runToNewPosition(stepperY.currentPosition()-(stepY));//2));
+          } else {
+           stepperY.runToNewPosition(stepperY.currentPosition()-(stepY));//12));
+          }
           
         }
         
@@ -276,6 +280,7 @@ void loop(){
       Serial.println("New powder layer deposited");
     } 
     else if(serialbutton == 's'){
+      jogZ2(jogStepZ);
       jogY(-distance_roller_nozzle);
       jogX(-6000);
       resetStepperPositions();
@@ -325,6 +330,7 @@ void spray_ink( byte lower_nozzles, byte upper_nozzles) {
 void make_new_powder_layer(){
   // In case the X is not at zero
   stepperX.runToNewPosition(0);
+  jogZ2(-jogStepZ);
   // Lower the powder bin to prevent powder from scooping
   jogZ1(2*jogStepZ);
   //Jog Y to the end of the powder bin
@@ -341,6 +347,8 @@ void make_new_powder_layer(){
     stepperY.run();
   }
   // Return carriage to (0,-14000)
+  // Move piston down to prevent scewing
+  jogZ2(jogStepZ);
   stepperY.runToNewPosition(-distance_roller_nozzle);
 }
 
@@ -435,7 +443,7 @@ void resetStepperPositions(){
 }
 
 void homeXY(){
-  // Return the XY-carriage to 0,0
+  // Return the XY-carriage to 0,0  
   stepperX.moveTo(0); 
   stepperY.moveTo(-distance_roller_nozzle); 
 
