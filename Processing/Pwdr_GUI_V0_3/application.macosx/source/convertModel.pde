@@ -7,24 +7,20 @@ int lowernozzles = 8;
 int uppernozzles = 4;
 int nozzles = lowernozzles+uppernozzles;
 
-int printXcoordinate = 120;
+int printXcoordinate = 120+85;  // Square
 int printYcoordinate = 30;
-int printWidth = 650;
+int printWidth = 480;        // Total image width
 int printHeight = 480;
 
 int layer_size = printWidth * printHeight/nozzles * 2;
 
 void convertModel() {
-//  output = createWriter("PrintData/PwdrPrintData"+sliceNumber+".ino"); 
-//  outputUpper = createWriter("PrintData/PwdrPrintDataUpper"+sliceNumber+".ino"); 
 
-//  output.print("int printfilesize[] = {650,40,26000};\r\nPROGMEM prog_uchar printFileLower[][2000] ={{");
-  // used to include "+source.width*+", but 2000 is the max size approximately the max size of the array on the Arduino. Hence the array must be declared in the Main source too,
-  // it's eassier to declare the max size and give the actual dimensions of the array seperately
-
-//  outputUpper.print("PROGMEM prog_uchar printFileUpper[][2000] ={{");
-  // Used to include "+source.width+", see previous lines
-
+  // Create config file for the printer, trailing comma for convenience  
+  output = createWriter("PWDR/PWDRCONF.TXT"); 
+  output.print(printWidth+","+printHeight/nozzles+","+maxSlices+","+inkSaturation+",");
+  output.flush();
+  output.close();
 
   int index=0;
   byte[] print_data = new byte[layer_size];
@@ -33,10 +29,6 @@ void convertModel() {
   // Steps of 12 nozzles in Y direction
   for (int y = printYcoordinate; y < printHeight; y=y+nozzles ) {
         
-//    if (y!=30) {
-//      output.print("},{");
-//      outputUpper.print("},{");
-//    }
     // Step in X direction  
     for (int x = printXcoordinate; x < printWidth; x++) {
       
@@ -69,29 +61,27 @@ void convertModel() {
         }
       } 
       
-      // Join the individual characters of the string and convert them to a decimal and add commas
-//      if (x!=120) {
-//        output.print(", ");
-//        outputUpper.print(", ");
-//      }
-
       LowerStr2 = join(LowerStr, "");
-//      output.print(unbinary(LowerStr2));
       print_data[index] = byte(unbinary(LowerStr2));
       index++;
       //      output.print(", ");
 
       UpperStr2 = join(UpperStr, "");
-//      outputUpper.print(unbinary(UpperStr2));
       print_data[index] = byte(unbinary(UpperStr2));
       index++;
-      //      outputUpper.print(", ");
     }
   }
-//  output.print("}};");
-//  outputUpper.print("}};");
 
-  saveBytes("PrintData/PwdrPrintData"+sliceNumber+".dat", print_data);
+  if (sliceNumber >= 1 && sliceNumber < 10){
+    saveBytes("PWDR/PWDR000"+sliceNumber+".DAT", print_data);
+  } else if (sliceNumber >= 10 && sliceNumber < 100){
+    saveBytes("PWDR/PWDR00"+sliceNumber+".DAT", print_data);
+  } else if (sliceNumber >= 100 && sliceNumber < 1000){
+    saveBytes("PWDR/PWDR0"+sliceNumber+".DAT", print_data);
+  } else if (sliceNumber >= 1000) {
+    saveBytes("PWDR/PWDR"+sliceNumber+".DAT", print_data);
+  }
+    
  
   sliceNumber++;
   println(sliceNumber);

@@ -29,13 +29,14 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM*/
 
 import processing.serial.*;
 
-PImage backgroundImage, backgroundImageMask;
+PImage backgroundImage, backgroundImageMask, sC;
 PFont myFont;
 
 // !Redundant!
 
 int clickColorInt;
 int sliceNumber = 1;
+int inkSaturation = 15;
 
 String GUIstate = "converting";
 
@@ -51,6 +52,7 @@ void setup(){
   // Load font
   myFont = loadFont("OfficinaSerif.vlw");
   textFont(myFont, 19);
+  sC = loadImage("http://c.statcounter.com/8319824/0/d557b615/0/", "png");
 }
 
 void draw(){
@@ -118,9 +120,18 @@ void draw(){
     }
     
   } else if(GUIstate == "printing"){
+    
     textAlign(CENTER);
     fill(#666666);
     text(serialString, 450, 395);
     textAlign(LEFT);
+  } else if(GUIstate == "settings"){
+    
+    textAlign(CENTER);
+    fill(#666666);
+    text(PreScale, 375, 100);
+    text(maxSlices, 375, 150);
+    textAlign(LEFT);
   }
 }
+

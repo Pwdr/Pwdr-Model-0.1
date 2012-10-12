@@ -90,7 +90,6 @@ void printFile(){
           // Fire the nozzles, as many times as prescribed
           for (int i=0; i<saturation; i++){
             spray_ink(lower,upper);
-            Serial.println(x);
           }
         }
       } 
