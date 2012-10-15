@@ -107,10 +107,12 @@ void draw(){
       line(208+lin.x1,30+lin.y1,208+lin.x2,30+lin.y2);
     }    
     loadPixels();
-    floodFill(new Vec2D(121,31), #000000, #FFFFFF);
+    floodFill(new Vec2D(printXcoordinate,printYcoordinate), #000000, #FFFFFF);
     updatePixels();
     // Debug output
-    //saveFrame("slices/slice-####.png");
+    // fill(#ff0000);
+    // rect(printXcoordinate, printYcoordinate, printWidth, printHeight);
+    // saveFrame("slices/slice-####.png");
     loadPixels();
     convertModel();
     

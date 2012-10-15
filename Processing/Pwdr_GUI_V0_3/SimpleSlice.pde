@@ -1,10 +1,10 @@
 //Measured in millimeters
 float LayerThickness = 0.4;
 float Sink = 2;
-int maxSlices = 20;
+int maxSlices = 150;
 
 //Dimensionless
-float PreScale = 1.4;
+float PreScale = 0.8;
 //String FileName = "file:///Users/alex/Downloads/teapot.stl";
 String FileName;
 

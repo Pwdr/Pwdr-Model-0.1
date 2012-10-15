@@ -66,7 +66,7 @@ void spray_ink( byte lower_nozzles, byte upper_nozzles) {
     }
   }
   //wait to be sure we don't try to fire nozzles to fast and burn them out
-  delayMicroseconds(500); 
+  delayMicroseconds(450); 
 }
 
 void abortPrint() {

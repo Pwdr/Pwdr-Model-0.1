@@ -40,7 +40,7 @@
 int saturation = 1;
 
 // Declare file length (rows), width and height
-int printfilesize[] = {480,40,40,15};
+int pwdrconfig[] = {480,40,40,15};
 
 // Bytes for the nozzle control
 byte lower = B00000000;

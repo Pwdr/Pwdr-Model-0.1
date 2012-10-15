@@ -13,7 +13,7 @@ void printFile(){
   if (!dataFile) {
     Serial.println("Error while opening printer config");
   } else {
-    Serial.print("Reading file printer config");
+    Serial.println("Reading file printer config");
   }
  
   int index = 0;
@@ -26,16 +26,17 @@ void printFile(){
     if (temp != ','){
       buffer[index++] = temp;
     } else {
-     printfilesize[index2] = atoi(buffer);
+     pwdrconfig[index2] = atoi(buffer);
      memset(buffer, 0, sizeof(buffer));
      index = 0;
      index2++;
     }
   }
   
-  saturation = printfilesize[3];
+  saturation = pwdrconfig[3];
+  Serial.println(saturation);
 
-  for (int z=1;z<2*printfilesize[2];z++){
+  for (int z=1;z<2*pwdrconfig[2];z++){
 
     // Use layer numer in file name   
     char filename[] = "PWDR/PWDR0000.DAT";
@@ -59,8 +60,8 @@ void printFile(){
       Serial.print("Reading file  "); Serial.println(filename);
     }
 
-    for (long y=1; y<=printfilesize[1]; y++){  
-      for (long x=1; x<=printfilesize[0]; x++){
+    for (long y=1; y<=pwdrconfig[1]; y++){  
+      for (long x=1; x<=pwdrconfig[0]; x++){
          
          // If the button on the protoshield is pushed, the printing process is aborted.
         if (analogRead(54) == 0){
@@ -69,10 +70,10 @@ void printFile(){
 
           // Move steps in X direction, reverse direction from left to right
           // when the Y position is even. Meanwhile, read the SD file for printdata
-          if(y % 2 && x == printfilesize[0]){
+          if(y % 2 && x == pwdrconfig[0]){
             stepperX.runToNewPosition(stepperX.currentPosition()-stepX);
             // First step of right-left Y
-            dataFile.seek(dataFile.position()+2*printfilesize[0]-2);  
+            dataFile.seek(dataFile.position()+2*pwdrconfig[0]-2);  
             lower  =  dataFile.read();
             upper =  dataFile.read();
           } else if(y % 2 && dataFile.position()>0){
