@@ -19,10 +19,10 @@ void newLayer(){
     stepperR.runSpeed();
     stepperY.run();
   }
-  // Return carriage to starting position
-  homeXY();
   // Move piston down to prevent scewing
   jogZ2(jogStepZ);
+  // Return carriage to starting position
+  homeXY();
 }
 
 // Reset the positions of the steppers. This acts as a margin

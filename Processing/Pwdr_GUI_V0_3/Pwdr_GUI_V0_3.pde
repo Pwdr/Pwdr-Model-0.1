@@ -36,7 +36,7 @@ PFont myFont;
 
 int clickColorInt;
 int sliceNumber = 1;
-int inkSaturation = 15;
+int inkSaturation = 11;
 
 String GUIstate = "converting";
 

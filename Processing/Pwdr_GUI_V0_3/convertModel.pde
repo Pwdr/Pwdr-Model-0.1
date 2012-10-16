@@ -3,6 +3,8 @@
 
 PrintWriter output, outputUpper;
 
+int loc;
+int LTR = 0;
 int lowernozzles = 8;
 int uppernozzles = 4;
 int nozzles = lowernozzles+uppernozzles;
@@ -27,9 +29,10 @@ void convertModel() {
 
   // Steps of 12 nozzles in Y direction
   for (int y = printYcoordinate; y < printYcoordinate+printHeight; y=y+nozzles ) {
-        
+    // Set a variable to know wheter we're moving LTR of RTL
+    LTR++;  
     // Step in X direction  
-    for (int x = printXcoordinate; x < printXcoordinate+printWidth; x++) {
+    for (int x = 0; x < printWidth; x++) {
       
       // Clear the temp strings
       String[] LowerStr = {""};
@@ -40,7 +43,13 @@ void convertModel() {
       // For every step in Y direction, sample the 12 nozzles
       for ( int i=0; i<nozzles; i++) {
         // Calculate the location in the pixel array, use total window width!
-        int loc = x + (y+i) * width;
+        // Use the LTR to determine the direction
+        
+        if (LTR % 2 == 1){
+          loc = printXcoordinate + printWidth - x + (y+i) * width;
+        } else {
+          loc = printXcoordinate + x + (y+i) * width;
+        }
 
         if (brightness(pixels[loc]) < 100) {
 

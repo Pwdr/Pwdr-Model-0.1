@@ -32,9 +32,6 @@ void printFile(){
      index2++;
     }
   }
-  
-  saturation = pwdrconfig[3];
-  Serial.println(saturation);
 
   for (int z=1;z<2*pwdrconfig[2];z++){
 
@@ -48,6 +45,13 @@ void printFile(){
       filename[10] += char((z/100)%10);
     } if (z >= 1000){
       filename[9] += char((z/1000)%10);
+    }
+    
+    // Increase saturation for first 4 layers
+    if (z < 4){
+      saturation = 1.5 * pwdrconfig[3];
+    } else {
+      saturation = pwdrconfig[3];
     }
     
     // Always start with closing a file, inside the Z-loop
@@ -70,16 +74,9 @@ void printFile(){
 
           // Move steps in X direction, reverse direction from left to right
           // when the Y position is even. Meanwhile, read the SD file for printdata
-          if(y % 2 && x == pwdrconfig[0]){
-            stepperX.runToNewPosition(stepperX.currentPosition()-stepX);
-            // First step of right-left Y
-            dataFile.seek(dataFile.position()+2*pwdrconfig[0]-2);  
-            lower  =  dataFile.read();
-            upper =  dataFile.read();
-          } else if(y % 2 && dataFile.position()>0){
+          if(y % 2){
             stepperX.runToNewPosition(stepperX.currentPosition()-stepX);
             // All but first stap of right-left Y, move 2 bytes to the left
-            dataFile.seek(dataFile.position()-2);
             lower  =  dataFile.read();
             upper =  dataFile.read();
           } else {
@@ -89,8 +86,12 @@ void printFile(){
             stepperX.runToNewPosition(stepperX.currentPosition()+stepX);
           }               
           // Fire the nozzles, as many times as prescribed
-          for (int i=0; i<saturation; i++){
-            spray_ink(lower,upper);
+          if (lower != 0 && upper !=0){
+            for (int i=0; i<saturation; i++){
+              spray_ink(lower,upper);
+            }
+          } else {
+            delayMicroseconds(500);
           }
         }
       } 
@@ -103,7 +104,7 @@ void printFile(){
       homeXY();
     } else { 
       // Message to serial to indicate layer is done and the show overall progress
-      Serial.print("Layer "); Serial.print(z); Serial.print(" of "); Serial.print(piston_depth)-1; Serial.println(" printed");
+      Serial.print("Layer "); Serial.print(z); Serial.print(" of "); Serial.print(pwdrconfig[2])-1; Serial.println(" printed");
 
       // When the complete layer is printed, a new layer of powder is deposited
       newLayer();

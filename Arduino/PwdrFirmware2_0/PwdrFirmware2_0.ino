@@ -16,7 +16,7 @@
  MMMMMy``    `.Mm``````````````````````````````````````````````````````````mMMMMM
  MMMMMmdddddddmMNddddddddddddddddddddddddddddddddddddddddddddddddddddddddddMMMMMM
  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
  MMMMMMMMMMM                                                          MMMMMMMMMMM
  MMMMMMMMMMM Software for Pwdr three-dimensional powder based printer MMMMMMMMMMM
  MMMMMMMMMMM Author: Alex Budding                                     MMMMMMMMMMM
@@ -39,7 +39,7 @@
 // How many times a single spot is printed
 int saturation = 1;
 
-// Declare file length (rows), width and height
+// Declare: print width, length (rows of 12 nozzles), height and saturation
 int pwdrconfig[] = {480,40,40,15};
 
 // Bytes for the nozzle control
@@ -76,8 +76,8 @@ const int jogStepZ = 250;
 // Size of machine in steps. Type long because number of steps > int (2^15)
 const long build_piston_width = 11000/stepX;       //2000/stepX  total width: 14800
 const long build_piston_length = 28000/stepY;      // total length 76000
-const long distance_roller_nozzle = 20000;      
-const long piston_depth = printfilesize[3];        // The depth of the part is defined by the preprocessor
+const long distance_roller_nozzle = 30000;      
+const long piston_depth = pwdrconfig[3];        // The depth of the part is defined by the preprocessor
 const long build_piston_end_stop = 76000;          // Absolute end of the machine
 
 // Variable for positioning
@@ -181,7 +181,7 @@ void loop(){
       Serial.println("New powder layer deposited");
     } else if(serialbutton == 's'){
       jogY(-distance_roller_nozzle);
-      jogX(-6000);
+      jogX(-4000);
       resetStepperPositions();
       Serial.println("Nozzle at start position");
     } else if(serialbutton == 'R'){
