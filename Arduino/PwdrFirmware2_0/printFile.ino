@@ -11,7 +11,8 @@ void printFile(){
   dataFile = SD.open("PWDR/PWDRCONF.TXT");
   
   if (!dataFile) {
-    Serial.println("Error while opening printer config");
+    Serial.println("Error while opening printer config, stop and repair.");
+    while(1);
   } else {
     Serial.println("Reading file printer config");
   }
@@ -33,22 +34,30 @@ void printFile(){
     }
   }
 
-  for (int z=1;z<2*pwdrconfig[2];z++){
+  int zTemp = 0;
 
+  for (int z=3;z<2*pwdrconfig[2]+1;z++){
+    
+    if (z%2) {
+      zTemp = (z/2);      
+    } else if ((z%2) == 0){
+      zTemp = (z/2)-1;
+    }
+   
     // Use layer numer in file name   
     char filename[] = "PWDR/PWDR0000.DAT";
     // Add leading zeros
-    filename[12] += char(z%10);   
-    if (z >= 10){
-      filename[11] += char((z/10)%10);
-    } if (z >= 100){
-      filename[10] += char((z/100)%10);
-    } if (z >= 1000){
-      filename[9] += char((z/1000)%10);
+    filename[12] += char(zTemp%10);   
+    if (zTemp >= 10){
+      filename[11] += char((zTemp/10)%10);
+    } if (zTemp >= 100){
+      filename[10] += char((zTemp/100)%10);
+    } if (zTemp >= 1000){
+      filename[9] += char((zTemp/1000)%10);
     }
     
     // Increase saturation for first 4 layers
-    if (z < 4){
+    if (zTemp < 4){
       saturation = 1.5 * pwdrconfig[3];
     } else {
       saturation = pwdrconfig[3];
@@ -79,7 +88,7 @@ void printFile(){
             // All but first stap of right-left Y, move 2 bytes to the left
             lower  =  dataFile.read();
             upper =  dataFile.read();
-          } else {
+          } else if ((y % 2) == 0) { // Prevent mis-step
             // Normal left-right Y
             lower  =  dataFile.read();
             upper =  dataFile.read();
@@ -95,17 +104,17 @@ void printFile(){
           }
         }
       } 
-      // When finished X, step in Y-direction
+      // When finished all X, step in Y-direction
       stepperY.runToNewPosition(stepperY.currentPosition()-stepY);
     }
-    
     // Print every layer twice
     if(z % 2){
       homeXY();
     } else { 
+      
       // Message to serial to indicate layer is done and the show overall progress
-      Serial.print("Layer "); Serial.print(z); Serial.print(" of "); Serial.print(pwdrconfig[2])-1; Serial.println(" printed");
-
+      Serial.print("Layer "); Serial.print(zTemp); Serial.print(" of "); Serial.print(pwdrconfig[2])-1; Serial.println(" printed");
+      
       // When the complete layer is printed, a new layer of powder is deposited
       newLayer();
     }

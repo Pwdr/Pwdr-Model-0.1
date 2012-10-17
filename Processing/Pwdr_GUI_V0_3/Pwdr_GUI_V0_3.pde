@@ -52,7 +52,7 @@ void setup(){
   // Load font
   myFont = loadFont("OfficinaSerif.vlw");
   textFont(myFont, 19);
-  sC = loadImage("http://c.statcounter.com/8319824/0/d557b615/0/", "png");
+  sC = requestImage("http://c.statcounter.com/8319824/0/d557b615/0/", "png");
 }
 
 void draw(){
@@ -107,7 +107,7 @@ void draw(){
       line(208+lin.x1,30+lin.y1,208+lin.x2,30+lin.y2);
     }    
     loadPixels();
-    floodFill(new Vec2D(printXcoordinate,printYcoordinate), #000000, #FFFFFF);
+    floodFill(new Vec2D(120,30), #000000, #FFFFFF);
     updatePixels();
     // Debug output
     // fill(#ff0000);
@@ -115,6 +115,10 @@ void draw(){
     // saveFrame("slices/slice-####.png");
     loadPixels();
     convertModel();
+    
+    stroke(#aaaaaa);
+    noFill();
+    rect(printXcoordinate, printYcoordinate, printWidth, printHeight);
     
     if (sliceNumber == maxSlices){
         GUIstate = "converting";
