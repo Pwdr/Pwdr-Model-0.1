@@ -4,7 +4,7 @@ float Sink = 2;
 int maxSlices = 150;
 
 //Dimensionless
-float PreScale = 0.3;
+float PreScale = 0.2;
 //String FileName = "file:///Users/alex/Downloads/teapot.stl";
 String FileName;
 

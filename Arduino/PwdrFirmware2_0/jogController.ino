@@ -59,10 +59,10 @@ void jogZ2(long jogDirStep){
 // Combined jog in Z direction for both pistons
 void jogZ(long jogDirStep){
   if(jogDirStep>0){
-    jogvar = stepperZ1.currentPosition()-abs(1.5*jogDirStep);
+    jogvar = stepperZ1.currentPosition()-abs(1.3*jogDirStep);
     jogvar2 = stepperZ2.currentPosition()+abs(jogDirStep);
   } else {
-    jogvar = stepperZ1.currentPosition()+abs(1.5*jogDirStep);
+    jogvar = stepperZ1.currentPosition()+abs(1.3*jogDirStep);
     jogvar2 = stepperZ2.currentPosition()-abs(jogDirStep);
   }
   if ((jogvar >= 0) || (jogvar <= piston_depth)){

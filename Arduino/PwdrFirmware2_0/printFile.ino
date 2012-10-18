@@ -117,6 +117,7 @@ void printFile(){
       
       // When the complete layer is printed, a new layer of powder is deposited
       newLayer();
+      stepperX.runToNewPosition(stepperX.currentPosition()-stepX);
     }
   }
 }   

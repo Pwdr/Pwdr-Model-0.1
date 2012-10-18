@@ -9,10 +9,10 @@ int lowernozzles = 8;
 int uppernozzles = 4;
 int nozzles = lowernozzles+uppernozzles;
 
-int printXcoordinate = 120+224;  // Left margin 120
-int printYcoordinate = 30+168;  // Top margin 30
-int printWidth = 212;        // Total image width 650
-int printHeight = 168;      // Total image height 480
+int printXcoordinate = 120+280;  // Left margin 120
+int printYcoordinate = 30+190;  // Top margin 30
+int printWidth = 120;        // Total image width 650
+int printHeight = 120;      // Total image height 480
 
 int layer_size = printWidth * printHeight/nozzles * 2;
 
