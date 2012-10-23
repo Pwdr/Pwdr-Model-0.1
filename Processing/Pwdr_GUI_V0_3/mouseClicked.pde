@@ -42,7 +42,7 @@ void mouseClicked() {
       break;
     // Save files
     case 7:
-      saveFile();
+      //   saveFile();
       break;
     // "Connecting"
     case 8:
@@ -159,5 +159,41 @@ void mouseClicked() {
       maxSlices = maxSlices + 100;
       println(maxSlices);
       break;
-  }
+    case 247:
+      showBox = !showBox;
+      println(showBox);
+      break;
+    case 248:
+      if (printXcoordinate >120){
+        printXcoordinate = printXcoordinate -10;
+      }
+      break;
+    case 249:
+      printXcoordinate = printXcoordinate + 10;
+      break;  
+    case 240:
+      if (printYcoordinate >30){
+        printYcoordinate = printYcoordinate -10;
+      }
+      break;
+    case 251:
+      printYcoordinate = printYcoordinate + 10;
+      break;
+    case 252:
+      if (printWidth >10){
+        printWidth = printWidth -10;
+      }
+      break;
+    case 253:
+      printWidth = printWidth + 10;  
+      break; 
+    case 254:
+      if (printHeight >10){
+        printHeight = printHeight -10;
+      } 
+      break; 
+    case 255:
+      printHeight = printHeight + 10;  
+      break; 
+   }
 }

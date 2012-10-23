@@ -37,6 +37,7 @@ PFont myFont;
 int clickColorInt;
 int sliceNumber = 1;
 int inkSaturation = 11;
+Boolean showBox = true;
 
 String GUIstate = "converting";
 
@@ -116,10 +117,11 @@ void draw(){
     loadPixels();
     convertModel();
     
-    stroke(#aaaaaa);
-    noFill();
-    rect(printXcoordinate, printYcoordinate, printWidth, printHeight);
-    
+    if (showBox){
+      stroke(#aaaaaa);
+      noFill();
+      rect(printXcoordinate, printYcoordinate, printWidth, printHeight);
+    }
     if (sliceNumber == maxSlices){
         GUIstate = "converting";
         frameRate(10);
@@ -137,6 +139,18 @@ void draw(){
     fill(#666666);
     text(PreScale, 375, 100);
     text(maxSlices, 375, 150);
+    text(printXcoordinate, 375, 225);
+    text(printYcoordinate, 375, 275);
+    text(printWidth, 375, 328);
+    text(printHeight, 375, 379);
+
+    if (!showBox){
+      noFill();
+    }
+    strokeWeight(2);
+    stroke(#666666);
+    rect(312, 409, 20, 20);      
+                
     textAlign(LEFT);
   }
 }
