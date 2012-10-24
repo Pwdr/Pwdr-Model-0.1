@@ -32,15 +32,12 @@ import processing.serial.*;
 PImage backgroundImage, backgroundImageMask, sC;
 PFont myFont;
 
-// !Redundant!
-
 int clickColorInt;
 int sliceNumber = 1;
 int inkSaturation = 11;
 Boolean showBox = true;
 
 String GUIstate = "converting";
-
 
 void setup(){
   size(800,600);
@@ -135,22 +132,25 @@ void draw(){
     textAlign(LEFT);
   } else if(GUIstate == "settings"){
     
-    textAlign(CENTER);
-    fill(#666666);
-    text(PreScale, 375, 100);
-    text(maxSlices, 375, 150);
-    text(printXcoordinate, 375, 225);
-    text(printYcoordinate, 375, 275);
-    text(printWidth, 375, 328);
-    text(printHeight, 375, 379);
-
     if (!showBox){
       noFill();
     }
     strokeWeight(2);
     stroke(#666666);
-    rect(312, 409, 20, 20);      
-                
+    rect(423, 209, 20, 20);      
+    
+    textAlign(CENTER);
+    fill(#666666);
+    text(PreScale, 375, 100);
+    text(maxSlices, 375, 150);
+    
+    if (!showBox){
+      fill(#aaaaaa);
+    }
+    text(printXcoordinate-120, 375, 270);
+    text(printYcoordinate-30, 375, 320);
+    text(printWidth, 375, 370);
+    text(printHeight, 375, 420);    
     textAlign(LEFT);
   }
 }

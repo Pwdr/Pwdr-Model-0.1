@@ -171,7 +171,7 @@ void mouseClicked() {
     case 249:
       printXcoordinate = printXcoordinate + 10;
       break;  
-    case 240:
+    case 250:
       if (printYcoordinate >30){
         printYcoordinate = printYcoordinate -10;
       }
