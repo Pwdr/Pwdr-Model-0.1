@@ -1,6 +1,7 @@
 void printFile(){
   // Switch on the LED while printing
   analogWrite(13, 255);
+  digitalWrite(21, HIGH);
 
   // Safety measure, return carriage to 0,0 position
   homeXY();
@@ -13,6 +14,7 @@ void printFile(){
   if (!dataFile) {
     Serial.println("Error while opening printer config, stop and repair.");
     while(1);
+    digitalWrite(21, LOW);
   } else {
     Serial.println("Reading file printer config");
   }

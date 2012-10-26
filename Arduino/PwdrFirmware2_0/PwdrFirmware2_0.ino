@@ -86,9 +86,13 @@ long jogvar2 = 0;
 
 void setup(){  
 
-  // Initialize Onboard LED and extra button and SD card
+  // Push button
   pinMode(5, INPUT); 
+  // LED
   pinMode(13, OUTPUT);
+  // Pull up transistor
+  pinMode(21, OUTPUT);
+  // SPI
   pinMode(53, OUTPUT);
 
   // Initilize the ink pins (22 to 33) and stepper pins (44-53)

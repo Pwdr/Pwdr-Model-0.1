@@ -71,7 +71,8 @@ void spray_ink( byte lower_nozzles, byte upper_nozzles) {
 
 void abortPrint() {
   PORTA = B00000000;
-  PORTC = B00000000;      
+  PORTC = B00000000;
+  digitalWrite(21, LOW);      
   Serial.println("Printing aborted");
   delay(1000);
   Serial.println("Please disconnect power and reset Arduino");
