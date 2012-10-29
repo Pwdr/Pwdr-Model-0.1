@@ -154,7 +154,7 @@ void mouseClicked() {
       }
       println(maxSlices);
       break;
-    case 51:
+    case 47:
       // Increase number of slices
       maxSlices = maxSlices + 100;
       println(maxSlices);

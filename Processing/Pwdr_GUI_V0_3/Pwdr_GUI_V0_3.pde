@@ -51,6 +51,8 @@ void setup(){
   myFont = loadFont("OfficinaSerif.vlw");
   textFont(myFont, 19);
   sC = requestImage("http://c.statcounter.com/8319824/0/d557b615/0/", "png");
+  
+  loadPreferences(); 
 }
 
 void draw(){
@@ -155,3 +157,8 @@ void draw(){
   }
 }
 
+void exit() {
+  println("Exiting program...");
+  savePreferences();
+  super.exit();
+}
