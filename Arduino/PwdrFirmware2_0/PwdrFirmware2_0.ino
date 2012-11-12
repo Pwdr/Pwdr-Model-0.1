@@ -91,7 +91,7 @@ void setup(){
   // LED
   pinMode(13, OUTPUT);
   // Pull up transistor
-  pinMode(21, OUTPUT);
+  pinMode(14, OUTPUT);
   // SPI
   pinMode(53, OUTPUT);
 

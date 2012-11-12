@@ -5,7 +5,6 @@ void loadPreferences(){
   } else {
     String[] configFile = loadStrings("config.txt");
     configFile = split(configFile[0], ',');
-    println(configFile);
     
     maxSlices = int(configFile[0]);
     PreScale = float(configFile[1]);
@@ -19,16 +18,10 @@ void loadPreferences(){
 }
 
 void savePreferences(){  
-  String[] configFile = new String[6];
+  output = createWriter("config.txt"); 
   
-  configFile[0] = str(maxSlices);
-  configFile[1] = str(PreScale);
-  configFile[2] =str(showBox);
-  configFile[3] =str(printXcoordinate);
-  configFile[4] =str(printYcoordinate);
-  configFile[5] =str(printWidth);
-  configFile[6] =str(printHeight);
-  join(configFile, ","); 
-  println(configFile);
-  saveStrings("config.txt",configFile);
+  output.println(maxSlices + "," + PreScale + "," + showBox + "," + printXcoordinate + "," + printYcoordinate  + "," + printWidth + "," + printHeight);
+  
+  output.flush();
+  output.close();
 }
