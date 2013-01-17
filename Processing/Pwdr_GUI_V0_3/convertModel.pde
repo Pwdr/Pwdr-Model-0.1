@@ -53,7 +53,7 @@ void convertModel() {
 
         if (brightness(pixels[loc]) < 100) {
 
-          // Write a zero when the pixel is white (or should be white, as the preview is inverted
+          // Write a zero when the pixel is white (or should be white, as the preview is inverted)
           if (i<uppernozzles) {
             UpperStr = append(UpperStr, "0");
           } else {
@@ -72,7 +72,6 @@ void convertModel() {
       LowerStr2 = join(LowerStr, "");
       print_data[index] = byte(unbinary(LowerStr2));
       index++;
-      //      output.print(", ");
 
       UpperStr2 = join(UpperStr, "");
       print_data[index] = byte(unbinary(UpperStr2));

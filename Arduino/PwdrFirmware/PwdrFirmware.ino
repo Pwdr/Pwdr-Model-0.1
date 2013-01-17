@@ -44,7 +44,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM*/
 #include <avr/pgmspace.h>
 
 // How many times a single spot is printed
-const int saturation = 14;
+const int saturation = 1;
 
 // Bytes for the nozzle control
 byte lower = B00000000;
