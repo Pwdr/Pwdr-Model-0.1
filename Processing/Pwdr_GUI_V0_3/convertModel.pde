@@ -25,7 +25,7 @@ void convertModel() {
   output.close();
 
   int index = 0;
-  byte[] print_data = new byte[layer_size];
+  byte[] print_data = new byte[layer_size * 2];
 
   // Steps of 12 nozzles in Y direction
   for (int y = printYcoordinate; y < printYcoordinate+printHeight; y=y+nozzles ) {
