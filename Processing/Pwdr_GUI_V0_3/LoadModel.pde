@@ -5,7 +5,6 @@ void loadModel(){
   
   selectInput("Select a STL file to process:", "fileSelected");
   
-  
   void fileSelected(File selection) {
     if (selection == null) {
       println("No file selected...");
