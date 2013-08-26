@@ -80,13 +80,33 @@ void convertModel() {
   }
 
   if (sliceNumber >= 1 && sliceNumber < 10){
-    saveBytes("PWDR/PWDR000"+sliceNumber+".DAT", print_data);
+    String DEST_FILE = "PWDR/PWDR000"+sliceNumber+".DAT";
+    File dataFile = sketchFile(DEST_FILE);
+    if (dataFile.exists()){
+      dataFile.delete();
+    }
+    saveBytes(DEST_FILE, print_data); // Savebytes directly causes bug under Windows
   } else if (sliceNumber >= 10 && sliceNumber < 100){
-    saveBytes("PWDR/PWDR00"+sliceNumber+".DAT", print_data);
+    String DEST_FILE = "PWDR/PWDR00"+sliceNumber+".DAT";
+    File dataFile = sketchFile(DEST_FILE);
+    if (dataFile.exists()){
+      dataFile.delete();
+    }
+    saveBytes(DEST_FILE, print_data); // Savebytes directly causes bug under Windows
   } else if (sliceNumber >= 100 && sliceNumber < 1000){
-    saveBytes("PWDR/PWDR0"+sliceNumber+".DAT", print_data);
+    String DEST_FILE = "PWDR/PWDR0"+sliceNumber+".DAT";
+    File dataFile = sketchFile(DEST_FILE);
+    if (dataFile.exists()){
+      dataFile.delete();
+    }
+    saveBytes(DEST_FILE, print_data); // Savebytes directly causes bug under Windows
   } else if (sliceNumber >= 1000) {
-    saveBytes("PWDR/PWDR"+sliceNumber+".DAT", print_data);
+    String DEST_FILE = "PWDR/PWDR"+sliceNumber+".DAT";
+    File dataFile = sketchFile(DEST_FILE);
+    if (dataFile.exists()){
+      dataFile.delete();
+    }
+    saveBytes(DEST_FILE, print_data); // Savebytes directly causes bug under Windows
   }
  
   sliceNumber++;
