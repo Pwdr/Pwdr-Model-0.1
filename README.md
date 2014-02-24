@@ -8,7 +8,7 @@ The Pwdr Model 0.1 consists of chassis, tool head and electronics. The printer e
 
 ##Software
 
-The accompanying software for the Pwdr Model 0.1 converts the CAD model in a printable format. This file is then uploaded to the Pwdr Model 0.1 micro-controller. The machine is controlled by easy-to-use software that allow full control of the printing process.The Pwdr Model 0.1 software has been based on open source tools like [Arduino](http://arduino.cc] and [Processing](http://processing.org).
+The accompanying software for the Pwdr Model 0.1 converts the CAD model in a printable format. This file is then uploaded to the Pwdr Model 0.1 micro-controller. The machine is controlled by easy-to-use software that allow full control of the printing process.The Pwdr Model 0.1 software has been based on open source tools like [Arduino](http://arduino.cc) and [Processing](http://processing.org).
 
 ##Materials
 
@@ -22,4 +22,4 @@ A whole new range of materials become available for experimenting with open-sour
 - Speed (depending on printed part): ±1 minute per layer
 
 ### License
-This work is licensed under a Creative Commons Attribution-NonCommercial 3.0 Unported License. 2012
+This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
