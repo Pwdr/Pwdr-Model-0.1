@@ -92,6 +92,9 @@ const long build_piston_end_stop = 76000;          // Absolute end of the machin
 long jogvar = 0;
 long jogvar2 = 0;
 
+// Pause button (switchPin) for printer to pause printing temporarily
+int switchPin = 5
+
 void setup(){  
 
   // Initialize Onboard LED and extra button
@@ -135,6 +138,9 @@ void setup(){
 
 void loop(){
 
+  while (digitalRead(switchPin) ===LOW)      // True if switchPin is LOW
+  
+  {
   if (Serial.available()){
     char serialbutton = Serial.read();
 
@@ -298,12 +304,14 @@ void loop(){
     }
   }
   
-
   // Blink the LED to show the Arduino is idle
   digitalWrite(13,HIGH);
   delay(18);
   digitalWrite(13,LOW);
   delay(18);
+  }
+   // Turn LED on to show pause swiitchPin in on
+   digitalWrite(13,HIGH); 
 }
 
 void spray_ink( byte lower_nozzles, byte upper_nozzles) {
