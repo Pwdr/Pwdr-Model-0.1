@@ -92,8 +92,8 @@ const long build_piston_end_stop = 76000;          // Absolute end of the machin
 long jogvar = 0;
 long jogvar2 = 0;
 
-// Pause button (switchPin) for printer to pause printing temporarily
-int switchPin = 5
+// Pausing button (pauseButtonPin) for printer to pause printing temporarily
+int pauseButtonPin = 5;
 
 void setup(){  
 
@@ -138,7 +138,7 @@ void setup(){
 
 void loop(){
 
-  while (digitalRead(switchPin) ===LOW)      // True if switchPin is LOW
+  while (digitalRead(pauseButtonPin) ==LOW)      // True if pauseButtonPin is LOW
   
   {
   if (Serial.available()){
