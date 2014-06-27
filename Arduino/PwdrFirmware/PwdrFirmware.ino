@@ -138,7 +138,7 @@ void setup(){
 
 void loop(){
 
-  while (digitalRead(pauseButtonPin) ==LOW)      // True if pauseButtonPin is LOW
+  while (digitalRead(pauseButtonPin) == LOW)      // True if pauseButtonPin is LOW
   
   {
   if (Serial.available()){
